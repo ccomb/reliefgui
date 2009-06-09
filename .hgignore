@@ -1,2 +1,4 @@
 bin/
 .installed.cfg
+reliefgui.egg-info/
+develop-eggs/
