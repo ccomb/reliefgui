@@ -2,3 +2,7 @@ bin/
 .installed.cfg
 reliefgui.egg-info/
 develop-eggs/
+.*\.pyc
+.*\.swp
+data/templates/
+data/sessions/

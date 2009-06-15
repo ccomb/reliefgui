@@ -1,0 +1,9 @@
+body {
+background: #FFF;
+}
+div#main {
+padding-top: 3em;
+}
+div.form {
+margin: 0.5em;
+}
