@@ -37,6 +37,10 @@ class IndexController(BaseController):
         elif mode == 'burst':
             shooter.burst()
 
+        shooter.off()
+        del shooter
+
+
         redirect_to(action='index')
 
 
