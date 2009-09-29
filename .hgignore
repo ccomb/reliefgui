@@ -6,3 +6,5 @@ develop-eggs/
 .*\.swp
 data/templates/
 data/sessions/
+eggs/
+Paste
