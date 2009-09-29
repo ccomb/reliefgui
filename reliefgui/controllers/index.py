@@ -31,14 +31,15 @@ class IndexController(BaseController):
                 mode = form_result['mode']
 
                 shooter = ReliefShooter()
-                shooter.resolution = 100.0/3
+                shooter.resolution = 100.0
                 shooter.maxrange = 360
                 shooter.nb_points = c.nb_points
                 shooter.base = base
                 if mode == 'slow':
                     shooter.slow()
                 elif mode == 'burst':
-                    shooter.burst()
+                    #shooter.burst()
+                    pass
                 elif mode == 'manual':
                     shooter.manual()
                 shooter.off()
