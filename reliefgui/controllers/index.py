@@ -31,6 +31,9 @@ class IndexController(BaseController):
         mode = self.form_result['mode']
 
         shooter = ReliefShooter()
+        shooter.resolution = 100.0/3
+        shooter.maxrange = 360
+        shooter.nb_points = 3
         shooter.base = base
         if mode == 'slow':
             shooter.slow()
