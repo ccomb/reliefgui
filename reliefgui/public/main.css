@@ -1,9 +1,23 @@
 body {
 background: #FFF;
+font-size: 15pt;
+}
+h1 {
+font-size: 120%;
 }
 div#main {
+width: 400px;
+margin-left: auto;
+margin-right: auto;
 padding-top: 3em;
 }
 div.form {
 margin: 0.5em;
 }
+.error-message {
+  color: red;
+}
+div.form {
+border-top: solid 1px #BBB;
+}
+

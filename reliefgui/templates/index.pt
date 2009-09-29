@@ -10,22 +10,11 @@
 <link rel="stylesheet" type="text/css" href="/main.css"/>
 </head>
 <body>
-
+Prototype en développement
 <div id="main">
+<h1>Shoot ${c.nb_points} points de vue</h1>
 
-${h.form(url(controller='index', action='capture'), method='post')}
-  <div class="form">
-    Base
-    <input type="text" name="base" size="4" /> mm
-  </div>
-  <div class="form">
-    <input type="radio" name="mode" value="slow">slow</input>
-    <input type="radio" name="mode" value="burst">burst</input>
-  </div>
-  <div class="form">
-    <input type="submit" value="Capture" />
-  </div>
-${h.end_form()}
+${c.shootform|n}
 
 </div>
 
