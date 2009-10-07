@@ -31,7 +31,7 @@ class IndexController(BaseController):
                 mode = form_result['mode']
 
                 shooter = ReliefShooter()
-                shooter.resolution = 100.0
+                shooter.resolution = 26.7
                 shooter.maxrange = 360
                 shooter.nb_points = c.nb_points
                 shooter.base = base
