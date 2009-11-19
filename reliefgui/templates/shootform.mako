@@ -1,5 +1,9 @@
 ${h.form(url(controller='index', action='index'), method='post')}
   <div class="form">
+    Nombre de points de vue :
+    <input type="text" name="nb_points" size="4" />
+  </div>
+  <div class="form">
     Base :
     <input type="text" name="base" size="4" /> mm
   </div>

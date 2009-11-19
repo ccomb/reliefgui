@@ -6,7 +6,7 @@ h1 {
 font-size: 120%;
 }
 div#main {
-width: 400px;
+width: 600px;
 margin-left: auto;
 margin-right: auto;
 padding-top: 3em;
@@ -21,3 +21,4 @@ div.form {
 border-top: solid 1px #BBB;
 }
 
+input { font-size: 100%; }
