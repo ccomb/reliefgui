@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/main.css"/>
 </head>
 <body  style="background: url(/logo_luxrelief.png) center top no-repeat;
-font-size: 200%">
+font-size: 100%">
 <div id="main" style="margin-top: 15%">
 <h1>Prise de vue relief automatisée</h1>
 
