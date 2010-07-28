@@ -1,4 +1,4 @@
-${h.form(url(controller='index', action='index'), method='post')}
+${h.form(url(controller='index', action='tournette'), method='post')}
   <div class="form">
     Nombre de points de vue :
     <input type="text" name="nb_points" size="4" />

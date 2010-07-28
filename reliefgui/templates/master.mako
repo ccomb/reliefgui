@@ -11,10 +11,11 @@
 </head>
 <body>
 <div id="main" style="margin-top: 10%">
-<img iid="logo" src="/logo_gorfou.png" alt="logo">
-<h1>Prise de vue relief automatisée</h1>
+<a href="/">
+  <img iid="logo" src="/logo_gorfou.png" alt="logo">
+</a>
 
-${c.shootform|n}
+${self.content()}
 
 </div>
 
