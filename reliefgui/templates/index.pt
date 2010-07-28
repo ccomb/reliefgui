@@ -9,9 +9,9 @@
 <!-- <link rel="shortcut icon" type="image/png" href="/icon.png"/> -->
 <link rel="stylesheet" type="text/css" href="/main.css"/>
 </head>
-<body  style="background: url(/logo_luxrelief.png) center top no-repeat;
-font-size: 100%">
-<div id="main" style="margin-top: 15%">
+<body>
+<div id="main" style="margin-top: 10%">
+<img iid="logo" src="/logo_gorfou.png" alt="logo">
 <h1>Prise de vue relief automatisée</h1>
 
 ${c.shootform|n}
