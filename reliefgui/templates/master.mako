@@ -7,13 +7,21 @@
 <meta name="ROBOTS" content="NOINDEX, NOFOLLOW"/>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
 <!-- <link rel="shortcut icon" type="image/png" href="/icon.png"/> -->
+<link rel="stylesheet" type="text/css" href="/css/vader/jquery-ui-1.8.4.custom.css"/>
 <link rel="stylesheet" type="text/css" href="/main.css"/>
+<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.4.custom.min.js"></script>
+<script type="text/javascript" src="/functions.js"></script>
 </head>
 <body>
-<div id="main" style="margin-top: 10%">
+<div id="page_header">
 <a href="/">
-  <img iid="logo" src="/logo_gorfou.png" alt="logo">
+  <img id="logo" src="/logo_gorfou.png" alt="logo">
 </a>
+<div id="header_line"><a href="http://gorfou.fr">http://gorfou.fr</a></div>
+</div>
+
+<div id="main">
 
 ${self.content()}
 

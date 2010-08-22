@@ -6,14 +6,25 @@ border: none;
 }
 body {
 background: #FFF;
-font-size: 12pt;
-text-align: center;
+font-size: 11pt;
+text-align: left;
 }
 h1 {
 font-size: 130%;
 }
 h2 {
 font-size: 110%;
+text-align: left;
+}
+div#page_header {
+border-bottom: solid 1px black;
+}
+div#header_line {
+font-size: 80%;
+text-align: right;
+}
+div#header {
+margin-bottom: 0.2em;
 }
 div#main {
 width: 600px;
@@ -21,15 +32,13 @@ margin-left: auto;
 margin-right: auto;
 padding-top: 3em;
 }
-div.form {
+div.widget {
 text-align: left;
+padding: 0.3em;
 margin: 0.5em;
 }
 .error-message {
   color: red;
-}
-div.form {
-border-top: solid 1px #BBB;
 }
 
 input { font-size: 100%; }
