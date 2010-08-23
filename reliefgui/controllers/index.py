@@ -129,7 +129,8 @@ class IndexController(BaseController):
         steps = shooter.cnc.x
         maxrange = form_result['maxrange']
         limit = form_result['limit']
-        self._calib(steps=steps, distance=maxrange, limit=limit)
+        left = int(self._calib()['left'])
+        self._calib(steps=steps-left, distance=maxrange, limit=limit)
         return HTTPFound(location="/")
 
     def move(self):
@@ -158,9 +159,9 @@ class IndexController(BaseController):
         try:
             if direction in ('+', '-'):
                 move = move if direction == '+' else -move
-                shooter.move_by(move, speed=speed, duration=duration)
+                shooter.move_by(move, speed=speed, duration=duration, ramp=0)
             else:
-                shooter.move_to(move, speed=speed, duration=duration)
+                shooter.move_to(move, speed=speed, duration=duration, ramp=0)
         except ValueError, error:
             request.environ['beaker.session']['moveerrors'] = str(error)
             request.environ['beaker.session'].save()
