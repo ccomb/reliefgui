@@ -3,7 +3,7 @@
 <%def name="content()">
 
 <div id="header" class="ui-widget ui-corner-top ui-widget-content">
-Position = ${c.position} | Resolution = ${c.resolution}
+Position = ${c.position} unités (1 unité = ${c.resolution} pas du moteur)
 </div>
 
 <div id="tabs">

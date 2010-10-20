@@ -1,5 +1,9 @@
   ${h.form(url(controller='index', action='shoot'), method='post')}
     <div class="widget">
+      Distance entre 2 photos (base) :
+      <input type="text" name="base" size="4" />
+    </div>
+    <div class="widget">
       Nombre de prises de vue :
       <input type="text" name="nb_points" size="4" />
     </div>

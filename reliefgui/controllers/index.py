@@ -34,7 +34,7 @@ class MoveSchema(Schema):
 
 class ShootSchema(Schema):
     nb_points = validators.Int(not_empty=True)
-    base = validators.Int(not_empty=True)
+    base = validators.Number(not_empty=True)
     mode = validators.OneOf(['slow', 'burst', 'manual'])
 
 
@@ -195,10 +195,10 @@ class IndexController(BaseController):
             form_result = ShootSchema.to_python(request.POST)
         except validators.Invalid, error:
             errors = error.unpack_errors()
+        request.environ['beaker.session']['shooterrors'] = errors
+        request.environ['beaker.session']['shootvalues'] = request.POST
+        request.environ['beaker.session'].save()
         if errors is not None:
-            request.environ['beaker.session']['shooterrors'] = errors
-            request.environ['beaker.session']['shootvalues'] = request.POST
-            request.environ['beaker.session'].save()
             return HTTPFound(location="/#shoot")
 
         nb_points = form_result['nb_points']
@@ -206,8 +206,14 @@ class IndexController(BaseController):
         mode = form_result['mode']
 
         shooter = ReliefShooter()
-        shooter.resolution = 26.7
-        shooter.maxrange = 360
+        # calibrate if we can
+        calib = self._calib()
+        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+            shooter.calibrate(steps=calib['steps'],
+                              distance=calib['distance'],
+                              limit=calib['limit']=='True')
+        #shooter.resolution = 26.7
+        #shooter.maxrange = 360
         shooter.nb_points = nb_points
         shooter.base = base
         if mode == 'slow':
