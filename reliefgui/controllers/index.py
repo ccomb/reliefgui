@@ -19,7 +19,7 @@ class RightCalibSchema(Schema):
 class SpeedOrDuration(validators.FormValidator):
     def validate_python(self, values, state):
         if values['speed'] and values['duration']:
-            message = u"Il faut choisir entre vitesse et duree"
+            message = "Il faut choisir entre vitesse et duree" #no utf-8 here
             raise api.Invalid(message, None, None)
         return values
 
@@ -40,20 +40,21 @@ class ShootSchema(Schema):
 
 class IndexController(BaseController):
 
+    calib_filename = "saved.cfg"
+
     def _calib(self, **kw):
         # read or write saved calibration
-        calib_filename = "saved.cfg"
-        if 'restart' in kw:
-            os.remove(calib_filename)
-            kw.pop('restart')
         section = 'calibration'
         conf = SafeConfigParser()
-        try:
-            calib_file = open(calib_filename, 'r+')
-            conf.readfp(calib_file)
-        except:
-            calib_file = open(calib_filename, 'w')
+        # create the config file
+        if not os.path.exists(self.calib_filename):
+            calib_file = open(self.calib_filename, 'w')
             conf.add_section(section)
+            calib_file.close()
+        calib_file = open(self.calib_filename, 'r+')
+        if not conf.has_section(section):
+            conf.add_section(section)
+        conf.readfp(calib_file)
         if not len(kw):
             return dict(conf.items(section))
         else:
@@ -74,20 +75,13 @@ class IndexController(BaseController):
             shooter.calibrate(steps=calib['steps'],
                               distance=calib['distance'],
                               limit=bool(calib['limit']))
-        c.position = shooter.cnc.x / shooter.resolution
-        c.resolution = shooter.resolution
-        errors = request.environ['beaker.session'].get('leftcaliberrors', {})
-        values = request.environ['beaker.session'].get('leftcalibvalues', {})
-        request.environ['beaker.session']['leftcaliberrors'] = None
-        request.environ['beaker.session']['leftcalibvalues'] = None
-        c.leftcalibform = htmlfill.render(render('/leftcalibform.mako'),
-                                         defaults=values,
-                                         errors=errors)
-        errors = request.environ['beaker.session'].get('rightcaliberrors', {})
-        values = request.environ['beaker.session'].get('rightcalibvalues', {})
-        request.environ['beaker.session']['rightcaliberrors'] = None
-        request.environ['beaker.session']['rightcalibvalues'] = None
-        c.rightcalibform = htmlfill.render(render('/rightcalibform.mako'),
+        c.position = round(shooter.position, 4)
+        c.resolution = int(shooter.resolution)
+        errors = request.environ['beaker.session'].get('caliberrors', {})
+        values = request.environ['beaker.session'].get('calibvalues', {})
+        request.environ['beaker.session']['caliberrors'] = None
+        request.environ['beaker.session']['calibvalues'] = None
+        c.calibform = htmlfill.render(render('/calibform.mako'),
                                          defaults=values,
                                          errors=errors)
         errors = request.environ['beaker.session'].get('moveerrors', {})
@@ -107,11 +101,17 @@ class IndexController(BaseController):
         request.environ['beaker.session'].save()
         return render('index.mako')
 
+    def reset(self):
+        if os.path.exists(self.calib_filename):
+            os.remove(self.calib_filename)
+        return HTTPFound(location="/")
+
 
     def store_left(self):
         if 'store_left' in request.POST:
             shooter = ReliefShooter()
-            self._calib(left=shooter.cnc.x, restart=True)
+            shooter.cnc.x = 0
+            self._calib(left=0)
         return HTTPFound(location="/#calibrate")
 
     def store_right(self):
@@ -132,6 +132,28 @@ class IndexController(BaseController):
         left = int(self._calib()['left'])
         self._calib(steps=steps-left, distance=maxrange, limit=limit)
         return HTTPFound(location="/")
+
+    def fast_move(self):
+        if 'fastmove' not in request.POST:
+            return HTTPFound(location="/#move")
+        fastmove = int(request.POST['fastmove'])
+        shooter = ReliefShooter()
+        calib = self._calib()
+        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+            shooter.calibrate(steps=calib['steps'],
+                              distance=calib['distance'],
+                              limit=calib['limit']=='True')
+        else:
+            shooter.calibrate(steps=1, distance=1)
+
+        try:
+            # we only move in motor step
+            shooter.move_by(float(fastmove)/shooter.resolution, speed=1000/shooter.resolution, ramp=0)
+        except ValueError, error:
+            request.environ['beaker.session']['moveerrors'] = str(error)
+            request.environ['beaker.session'].save()
+        return HTTPFound(location="/#move")
+
 
     def move(self):
         calib = self._calib()

@@ -8,3 +8,7 @@ data/templates/
 data/sessions/
 eggs/
 Paste
+paster.log
+paster.pid
+nohup.out
+saved.cfg

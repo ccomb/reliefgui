@@ -15,22 +15,7 @@ Position = ${c.position} | Resolution = ${c.resolution}
 
 
 <div id="calibrate">
-
-% if len(c.calib)!=4:
-    <div class="error-message">Veuillez terminer la calibration</div>
-% endif
-
-Valeurs actuelles :<br/>
-% for name,value in sorted(c.calib.items()):
-    <div>${name} = ${value}</div>
-% endfor
-
-  <h3>Étape 1 : position gauche</h3>
-  ${c.leftcalibform|n}
-
-  <h3>Étape 2 : position droite</h3>
-  ${c.rightcalibform|n}
-
+  ${c.calibform|n}
 </div>
 
 <div id="move">

@@ -16,6 +16,9 @@ h2 {
 font-size: 110%;
 text-align: left;
 }
+div {
+padding: 0.2em;
+}
 div#page_header {
 border-bottom: solid 1px black;
 }
@@ -34,7 +37,6 @@ padding-top: 3em;
 }
 div.widget {
 text-align: left;
-padding: 0.3em;
 margin: 0.5em;
 }
 .error-message {

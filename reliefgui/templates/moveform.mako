@@ -1,3 +1,19 @@
+  ${h.form(url(controller='index', action='fast_move'), method='post')}
+    <div style="text-align: center">
+    <h2>Positionnement rapide</h2>
+    <p>Attention le déplacement est en pas moteur.</p>
+   ←<input type="submit" name="fastmove" value="-1000" />
+    <input type="submit" name="fastmove" value="-100" />
+    <input type="submit" name="fastmove" value="-10" />
+    <input type="submit" name="fastmove" value="-1" /> O
+    <input type="submit" name="fastmove" value="+1" />
+    <input type="submit" name="fastmove" value="+10" />
+    <input type="submit" name="fastmove" value="+100" />
+    <input type="submit" name="fastmove" value="+1000" />→
+    </div>
+  ${h.end_form()}
+
+    <h2>Déplacement</h2>
   ${h.form(url(controller='index', action='move'), method='post')}
     <div class="widget">
     <span class="widget">
@@ -8,7 +24,7 @@
         <option value="-">négatif</option>
       </select>
     <div class="widget">
-      Déplacement :
+      Position :
       <input type="text" name="move" size="6" />
     </div>
     </span>
