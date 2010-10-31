@@ -1,7 +1,7 @@
   ${h.form(url(controller='index', action='fast_move'), method='post')}
     <div style="text-align: center">
     <h2>Positionnement rapide</h2>
-    <p>Attention les déplacements de ces boutons est en nombre de pas moteur.</p>
+    <p>Attention les déplacements de ces boutons sont en nombre de pas moteur.</p>
    ←<input type="submit" name="fastmove" value="-1000" />
     <input type="submit" name="fastmove" value="-100" />
     <input type="submit" name="fastmove" value="-10" />
