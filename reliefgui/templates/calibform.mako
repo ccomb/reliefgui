@@ -27,18 +27,26 @@
   <div class="widget">
     <input type="submit" name="store_left" value="Enregistrer la position gauche" class="ui-button" />
   </div>
+  Cette position gauche correspond à la position <strong>zéro</strong>.
   ${h.end_form()}
 
 ## second step
 % elif 'distance' not in c.calib:
   <h3>Étape 2 : position droite</h3>
   Déplacez-vous jusqu'à la position droite avec l'onglet
-  «&nbsp;Déplacement&nbsp;», mesurez la distance parcourue,
+  «&nbsp;Déplacement&nbsp;», mesurez la distance parcourue entre la position
+  gauche et la position droite,
   puis appuyez sur le bouton ci-dessous :<br/>
   ${h.form(url(controller='index', action='store_right'), method='post')}
   <div class="widget">
     Distance mesurée :
-    <input type="text" name="maxrange" size="4" /> (mm, cm, degrés, etc.)
+    <input type="text" name="maxrange" size="4" onfocus="" />
+    <select name="unit">
+      <option value="mm">mm</option>
+      <option value="cm">cm</option>
+      <option value="deg">deg</option>
+      <option value="rad">rad</option>
+    </select>
   </div>
   <div class="widget">
     <input type="checkbox" name="limit">

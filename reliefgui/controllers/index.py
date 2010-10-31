@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 
 class RightCalibSchema(Schema):
     maxrange = validators.Number()
+    unit = validators.OneOf(['mm', 'cm', 'deg', 'rad'])
     limit = validators.Bool()
 
 
@@ -128,9 +129,10 @@ class IndexController(BaseController):
         shooter = ReliefShooter()
         steps = shooter.cnc.x
         maxrange = form_result['maxrange']
+        unit = form_result['unit']
         limit = form_result['limit']
         left = int(self._calib()['left'])
-        self._calib(steps=steps-left, distance=maxrange, limit=limit)
+        self._calib(steps=steps-left, distance=maxrange, unit=unit, limit=limit)
         return HTTPFound(location="/")
 
     def fast_move(self):

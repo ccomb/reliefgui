@@ -17,25 +17,19 @@
   ${h.form(url(controller='index', action='move'), method='post')}
     <div class="widget">
     <span class="widget">
-      Sens du déplacement :
+      Se déplacer 
       <select name="direction">
-        <option value="=">absolu</option>
-        <option value="+">positif</option>
-        <option value="-">négatif</option>
+        <option value="=">vers la position exacte</option>
+        <option value="-">vers la gauche de</option>
+        <option value="+">vers la droite de</option>
       </select>
-    <div class="widget">
-      Position :
-      <input type="text" name="move" size="6" /> unités
-    </div>
+      <input type="text" name="move" size="6" /> ${c.calib.get('unit', u'pas')}
     </span>
     </div>
     <div class="widget">
-      vitesse :
-      <input type="text" name="speed" size="5" /> unités/s
-    </div>
-      ou
-    <div class="widget">
-      durée :
+      à la vitesse de 
+      <input type="text" name="speed" size="5" /> ${c.calib.get('unit', u'pas')}/s,
+      ou pendant
       <input type="text" name="duration" size="4" /> secondes
     </div>
   <div class="widget">
