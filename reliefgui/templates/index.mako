@@ -31,11 +31,5 @@
 
 </div>
 
-<h2>Répétition</h2>
-  <div class="widget">
-    Répéter toute la séquence
-    <input type="text" name="nb_repeat" size="4" /> fois
-  </div>
-
 
 </%def>
