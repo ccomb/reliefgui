@@ -1,7 +1,7 @@
   ${h.form(url(controller='index', action='shoot'), method='post')}
     <div class="widget">
       Distance entre 2 photos (base) :
-      <input type="text" name="base" size="4" />
+      <input type="text" name="base" size="4" /> ${c.calib.get('unit', u'pas')}
     </div>
     <div class="widget">
       Nombre de prises de vue :
