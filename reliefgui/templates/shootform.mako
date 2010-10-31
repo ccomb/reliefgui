@@ -11,7 +11,7 @@
       Mode :<br/>
       <input type="radio" name="mode" value="manual">Manuel</input><br/>
       <input type="radio" name="mode" value="slow">Automatique</input><br/>
-      <input type="radio" name="mode" value="burst">Rafale</input>
+      <!-- <input type="radio" name="mode" value="burst">Rafale</input> -->
     </div>
   <div class="widget">
     <input type="submit" value="Démarrer" class="ui-button" />
