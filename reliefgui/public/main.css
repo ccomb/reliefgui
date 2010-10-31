@@ -44,3 +44,8 @@ margin: 0.5em;
 }
 
 input { font-size: 100%; }
+
+#position {
+color: orange;
+font-weight: bold;
+}

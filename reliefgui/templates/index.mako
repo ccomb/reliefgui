@@ -3,7 +3,7 @@
 <%def name="content()">
 
 <div id="header" class="ui-widget ui-corner-top ui-widget-content">
-Position = ${c.position} ${c.calib.get('unit', u'pas (moteur)')}
+<span id="position">Position = ${c.position} ${c.calib.get('unit', u'pas (moteur)')}</span>
 %if 'unit' in c.calib:
  (1 ${c.calib['unit']} = ${c.resolution} pas du moteur)
 %endif
