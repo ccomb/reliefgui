@@ -1,5 +1,5 @@
 ## status message
-% if len(c.calib)!=4:
+% if len(c.calib)!=6:
     <div class="error-message">Veuillez terminer la calibration</div>
 % endif
 

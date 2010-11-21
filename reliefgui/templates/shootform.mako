@@ -9,9 +9,13 @@
     </div>
     <div class="widget">
       Mode :<br/>
-      <input type="radio" name="mode" value="manual">Manuel</input><br/>
-      <input type="radio" name="mode" value="slow">Automatique</input><br/>
-      <!-- <input type="radio" name="mode" value="burst">Rafale</input> -->
+      <input type="radio" name="mode" value="slow">arrêt à chaque photo</input><br/>
+      <input type="radio" name="mode" value="burst">photos en rafale</input><br/>
+    </div>
+    <div>
+        <input type="checkbox" name="auto" value="True">
+            Déclencher l'appareil photo automatiquement.
+        </input>
     </div>
   <div class="widget">
     <input type="submit" value="Démarrer" class="ui-button" />

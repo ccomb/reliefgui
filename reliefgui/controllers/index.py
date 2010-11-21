@@ -36,7 +36,8 @@ class MoveSchema(Schema):
 class ShootSchema(Schema):
     nb_points = validators.Int(not_empty=True)
     base = validators.Number(not_empty=True)
-    mode = validators.OneOf(['slow', 'burst', 'manual'])
+    mode = validators.OneOf(['slow', 'burst'])
+    auto = validators.Bool()
 
 
 class IndexController(BaseController):
@@ -73,7 +74,8 @@ class IndexController(BaseController):
         c.calib = calib = self._calib()
         shooter = ReliefShooter()
         if 'steps' in calib and 'distance' in calib and 'limit' in calib:
-            shooter.calibrate(steps=calib['steps'],
+            shooter.calibrate(left=int(calib['left']),
+                              right=int(calib['right']),
                               distance=calib['distance'],
                               limit=bool(calib['limit']))
         c.position = round(shooter.position, 4)
@@ -111,8 +113,7 @@ class IndexController(BaseController):
     def store_left(self):
         if 'store_left' in request.POST:
             shooter = ReliefShooter()
-            shooter.cnc.x = 0
-            self._calib(left=0)
+            self._calib(left=shooter.cnc.x)
         return HTTPFound(location="/#calibrate")
 
     def store_right(self):
@@ -127,12 +128,19 @@ class IndexController(BaseController):
         if errors is not None:
             return HTTPFound(location="/")
         shooter = ReliefShooter()
-        steps = shooter.cnc.x
+        right = shooter.cnc.x
         maxrange = form_result['maxrange']
         unit = form_result['unit']
         limit = form_result['limit']
         left = int(self._calib()['left'])
-        self._calib(steps=steps-left, distance=maxrange, unit=unit, limit=limit)
+        if left > right:
+            left, right = right, left
+        self._calib(steps=right-left,
+                    left=left,
+                    right=right,
+                    distance=maxrange,
+                    unit=unit,
+                    limit=limit)
         return HTTPFound(location="/")
 
     def fast_move(self):
@@ -142,14 +150,15 @@ class IndexController(BaseController):
         shooter = ReliefShooter()
         calib = self._calib()
         if 'steps' in calib and 'distance' in calib and 'limit' in calib:
-            shooter.calibrate(steps=calib['steps'],
+            shooter.calibrate(left=calib['left'],
+                              right=calib['right'],
                               distance=calib['distance'],
                               limit=calib['limit']=='True')
         else:
-            shooter.calibrate(steps=1, distance=1)
+            shooter.calibrate(left=0, right=1, distance=1)
 
         try:
-            # we only move in motor step
+            # we only move in motor steps
             shooter.move_by(float(fastmove)/shooter.resolution, speed=1000/shooter.resolution, ramp=0)
         except ValueError, error:
             request.environ['beaker.session']['moveerrors'] = str(error)
@@ -173,7 +182,8 @@ class IndexController(BaseController):
         shooter = ReliefShooter()
         # calibrate if we can
         if 'steps' in calib and 'distance' in calib and 'limit' in calib:
-            shooter.calibrate(steps=calib['steps'],
+            shooter.calibrate(left=calib['left'],
+                              right=calib['right'],
                               distance=calib['distance'],
                               limit=calib['limit']=='True')
         direction = form_result['direction']
@@ -206,12 +216,14 @@ class IndexController(BaseController):
         nb_points = form_result['nb_points']
         base = form_result['base']
         mode = form_result['mode']
+        auto = form_result['auto']
 
         shooter = ReliefShooter()
         # calibrate if we can
         calib = self._calib()
         if 'steps' in calib and 'distance' in calib and 'limit' in calib:
-            shooter.calibrate(steps=calib['steps'],
+            shooter.calibrate(left=calib['left'],
+                              right=calib['right'],
                               distance=calib['distance'],
                               limit=calib['limit']=='True')
         #shooter.resolution = 26.7
@@ -219,11 +231,9 @@ class IndexController(BaseController):
         shooter.nb_points = nb_points
         shooter.base = base
         if mode == 'slow':
-            shooter.slow()
+            shooter.slow(auto=auto)
         elif mode == 'burst':
-            shooter.burst()
-        elif mode == 'manual':
-            shooter.manual()
+            shooter.burst(auto=auto)
         shooter.off()
         del shooter
 
