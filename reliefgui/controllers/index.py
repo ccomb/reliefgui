@@ -38,6 +38,7 @@ class ShootSchema(Schema):
     base = validators.Number(not_empty=True)
     mode = validators.OneOf(['slow', 'burst'])
     auto = validators.Bool()
+    imps = validators.Number(not_empty=True)
 
 
 class IndexController(BaseController):
@@ -219,6 +220,7 @@ class IndexController(BaseController):
         auto = form_result['auto']
 
         shooter = ReliefShooter()
+        shooter.burst_period = 1.0/form_result['imps']
         # calibrate if we can
         calib = self._calib()
         if 'steps' in calib and 'distance' in calib and 'limit' in calib:

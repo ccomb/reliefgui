@@ -12,6 +12,10 @@
       <input type="radio" name="mode" value="slow">arrêt à chaque photo</input><br/>
       <input type="radio" name="mode" value="burst">photos en rafale</input><br/>
     </div>
+    <div id="imps">
+      Vitesse de la rafale : <input type="text" name="imps" size="4"/> im/s
+    </div>
+
     <div>
         <input type="checkbox" name="auto" value="True">
             Déclencher l'appareil photo automatiquement.
@@ -22,3 +26,19 @@
   </div>
   ${h.end_form()}
 
+<script type="text/javascript">
+update_imps = function() {
+    // update the images/s input display
+    if ($('input[name=mode]:checked').val() == 'burst') {
+        $('#imps').show('fast')
+    } else {
+        $('#imps').hide('fast')
+    }
+}
+
+$('input[name=mode]:radio').change(update_imps)
+
+$(document).ready(update_imps)
+
+
+</script>
