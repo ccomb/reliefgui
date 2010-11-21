@@ -39,6 +39,7 @@ class ShootSchema(Schema):
     mode = validators.OneOf(['slow', 'burst'])
     auto = validators.Bool()
     imps = validators.Number()
+    wait_time = validators.Number()
 
 
 class IndexController(BaseController):
@@ -220,6 +221,7 @@ class IndexController(BaseController):
         base = form_result['base']
         mode = form_result['mode']
         auto = form_result['auto']
+        wait_time = form_result['wait_time'] or 0
 
         shooter = ReliefShooter()
         shooter.burst_period = 1.0/(form_result['imps'] or 1)
@@ -235,7 +237,7 @@ class IndexController(BaseController):
         shooter.nb_points = nb_points
         shooter.base = base
         if mode == 'slow':
-            shooter.slow(auto=auto)
+            shooter.slow(auto=auto, wait_time=wait_time)
         elif mode == 'burst':
             shooter.burst(auto=auto)
         shooter.off()

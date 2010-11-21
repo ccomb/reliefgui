@@ -8,12 +8,15 @@
       <input type="text" name="nb_points" size="4" />
     </div>
     <div class="widget">
-      Mode :<br/>
-      <input type="radio" name="mode" value="slow">arrêt à chaque photo</input><br/>
-      <input type="radio" name="mode" value="burst">photos en rafale</input><br/>
-    </div>
-    <div id="imps">
-      Vitesse de la rafale : <input type="text" name="imps" size="4"/> im/s
+      Mode :
+      <div>
+      <input type="radio" name="mode" value="slow">arrêt à chaque photo</input>
+        <div id="wait_time">Temp d'attente entre photos : <input type="text" name="wait_time" size="3"/> s</div>
+      </div>
+      <div>
+      <input type="radio" name="mode" value="burst">photos en rafale</input>
+        <div id="imps">Vitesse de la rafale : <input type="text" name="imps" size="3"/> im/s</div>
+        </div>
     </div>
 
     <div>
@@ -29,10 +32,13 @@
 <script type="text/javascript">
 update_imps = function() {
     // update the images/s input display
+        $('#wait_time').hide('fast')
+        $('#imps').hide('fast')
     if ($('input[name=mode]:checked').val() == 'burst') {
         $('#imps').show('fast')
-    } else {
-        $('#imps').hide()
+    }
+    if ($('input[name=mode]:checked').val() == 'slow') {
+        $('#wait_time').show('fast')
     }
 }
 $('input[name=mode]:radio').change(update_imps)
