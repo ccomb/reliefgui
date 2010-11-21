@@ -35,10 +35,6 @@ update_imps = function() {
         $('#imps').hide('fast')
     }
 }
-
 $('input[name=mode]:radio').change(update_imps)
-
 $(document).ready(update_imps)
-
-
 </script>

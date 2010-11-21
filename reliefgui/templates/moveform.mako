@@ -17,7 +17,7 @@
   ${h.form(url(controller='index', action='move'), method='post')}
     <div class="widget">
     <span class="widget">
-      Se déplacer 
+      Se déplacer
       <select name="direction">
         <option value="=">vers la position exacte</option>
         <option value="-">vers la gauche de</option>
@@ -27,7 +27,7 @@
     </span>
     </div>
     <div class="widget">
-      à la vitesse de 
+      à la vitesse de
       <input type="text" name="speed" size="5" /> ${c.calib.get('unit', u'pas')}/s,
       ou pendant
       <input type="text" name="duration" size="4" /> secondes
@@ -37,3 +37,20 @@
   </div>
   ${h.end_form()}
 
+<script type="text/javascript">
+$(document).ready(
+    $('input[name=fastmove]').click(
+        function() {
+            $.post('fast_move',
+                   {fastmove:this.value},
+                   function(data){
+                       if (data!='ok') {
+                           alert(data)
+                       }
+                   }
+            )
+            return false;
+        }
+    )
+)
+</script>

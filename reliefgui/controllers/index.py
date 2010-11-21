@@ -162,8 +162,10 @@ class IndexController(BaseController):
             # we only move in motor steps
             shooter.move_by(float(fastmove)/shooter.resolution, speed=1000/shooter.resolution, ramp=0)
         except ValueError, error:
+            return error
             request.environ['beaker.session']['moveerrors'] = str(error)
             request.environ['beaker.session'].save()
+        return 'ok'
         return HTTPFound(location="/#move")
 
 
