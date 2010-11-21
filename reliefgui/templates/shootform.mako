@@ -32,9 +32,9 @@ update_imps = function() {
     if ($('input[name=mode]:checked').val() == 'burst') {
         $('#imps').show('fast')
     } else {
-        $('#imps').hide('fast')
+        $('#imps').hide()
     }
 }
 $('input[name=mode]:radio').change(update_imps)
-$(document).ready(update_imps)
+update_imps()
 </script>
