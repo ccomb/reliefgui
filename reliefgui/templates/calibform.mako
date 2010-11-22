@@ -59,4 +59,7 @@
   ${h.end_form()}
 % endif
 
+    ${h.form(url(controller='index', action='store_center'), method='post')}
+    <input type="submit" name="center" value="Mémoriser le centre" />
+    ${h.end_form()}
 

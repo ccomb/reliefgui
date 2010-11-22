@@ -40,6 +40,7 @@ class ShootSchema(Schema):
     auto = validators.Bool()
     imps = validators.Number()
     wait_time = validators.Number()
+    fast_preview = validators.Number(if_missing='')
 
 
 class IndexController(BaseController):
@@ -75,7 +76,7 @@ class IndexController(BaseController):
         """
         c.calib = calib = self._calib()
         shooter = ReliefShooter()
-        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+        if 'left' in calib and 'right' in calib and 'distance' in calib and 'limit' in calib:
             shooter.calibrate(left=int(calib['left']),
                               right=int(calib['right']),
                               distance=calib['distance'],
@@ -137,21 +138,31 @@ class IndexController(BaseController):
         left = int(self._calib()['left'])
         if left > right:
             left, right = right, left
-        self._calib(steps=right-left,
-                    left=left,
+        self._calib(left=left,
                     right=right,
                     distance=maxrange,
                     unit=unit,
                     limit=limit)
         return HTTPFound(location="/")
 
+    def store_center(self):
+        """store the center reference in our unit
+        """
+        if 'center' in request.POST:
+            shooter = ReliefShooter()
+            shooter.calibrate(**self._calib())
+            self._calib(center=shooter.position)
+        return HTTPFound(location="/")
+
     def fast_move(self):
+        """AJAX handler for the fast move buttons
+        """
         if 'fastmove' not in request.POST:
             return HTTPFound(location="/#move")
         fastmove = int(request.POST['fastmove'])
         shooter = ReliefShooter()
         calib = self._calib()
-        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+        if 'left' in calib and 'right' in calib and 'distance' in calib and 'limit' in calib:
             shooter.calibrate(left=calib['left'],
                               right=calib['right'],
                               distance=calib['distance'],
@@ -169,7 +180,6 @@ class IndexController(BaseController):
         return 'ok'
         return HTTPFound(location="/#move")
 
-
     def move(self):
         calib = self._calib()
 
@@ -185,7 +195,7 @@ class IndexController(BaseController):
             return HTTPFound(location="/#move")
         shooter = ReliefShooter()
         # calibrate if we can
-        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+        if 'left' in calib and 'right' in calib and 'distance' in calib and 'limit' in calib:
             shooter.calibrate(left=calib['left'],
                               right=calib['right'],
                               distance=calib['distance'],
@@ -227,7 +237,7 @@ class IndexController(BaseController):
         shooter.burst_period = 1.0/(form_result['imps'] or 1)
         # calibrate if we can
         calib = self._calib()
-        if 'steps' in calib and 'distance' in calib and 'limit' in calib:
+        if 'left' in calib and 'right' in calib and 'distance' in calib and 'limit' in calib:
             shooter.calibrate(left=calib['left'],
                               right=calib['right'],
                               distance=calib['distance'],
@@ -236,7 +246,17 @@ class IndexController(BaseController):
         #shooter.maxrange = 360
         shooter.nb_points = nb_points
         shooter.base = base
-        if mode == 'slow':
+
+        if 'fast_preview' in request.POST:
+            fast_preview = form_result['fast_preview']
+            center = float(calib['center'])
+            if fast_preview == 0:
+                shooter.move_to(float(center))
+            else:
+                left_photo = center - base * (nb_points-1) / 2.0
+                target = left_photo + (fast_preview - 1) * base
+                shooter.move_to(float(target))
+        elif mode == 'slow':
             shooter.slow(auto=auto, wait_time=wait_time)
         elif mode == 'burst':
             shooter.burst(auto=auto)
